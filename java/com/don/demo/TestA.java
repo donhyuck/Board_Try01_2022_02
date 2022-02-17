@@ -25,7 +25,7 @@ public class TestA extends HttpServlet {
 		// 데이터를 주고받는 두 주체(컴퓨터간, 프로그램간..) 인코딩 방식이 같아야 한다.
 		response.setCharacterEncoding("UTF-8"); // Tomcat에게 UTF-8처리해서 보내라
 		response.setContentType("text/html; charset=UTF-8"); // 브라우저한테 내가 보내는 걸 UTF-8로 처리해라
-		System.out.println("인코딩 실행");
+//		System.out.println("인코딩 실행");
 
 		PrintWriter out = response.getWriter();
 		out.println("hello~!</br>");
