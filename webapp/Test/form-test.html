@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Form Test</title>
+</head>
+<body>
+	<h3>Form Test</h3>
+	<hr />
+
+	<div>
+		<h5>네이버 들어가기</h5>
+		
+		<!-- form 태그 : url을 완성시켜서 주소창에 적용시켜줌 -->
+		<!--   - action 속성 : 목적 url을 "~~"안에 적는다.-->
+		<!--   - input을 가져다가 queryString을 만들어줌 -->
+		
+		<form action="https://www.naver.com">
+	
+			<!-- input 태그 : 데이터를 입력할 수 있는 다양한 형태의 ui를 제공 -->
+			<!--   - type 속성 : 어떤 형태로 쓸거냐 -->
+			<!--   - name 속성 : 어떤 이름으로 붙여줄거냐 -->
+			<!--   - value 속성 : 어떤 데이터를 쓸거냐 -->
+			<!-- form 테그 내부의 submit 버튼은 해당 form을 실행시킨다.  -->
+			
+			[입력창] <input type="text" /> <br /> <!-- 이 상태에서는 input이 전송결과에 영향을 못 끼친다. -->
+			[전송 버튼] <input type="submit" value="네이버들어가기" /> <br />
+			[체크 박스] <input type="checkbox" /> <br />
+			[라디오 박스] <input type="radio" /> <br />
+			<!-- 숨김 데이터 -->
+			<input type="hidden" />
+		
+		</form>
+	</div>
+	<hr />
+	
+	<div>
+		<h5>네이버에 검색하여 들어가기</h5>
+		
+		<form action="https://search.naver.com/search.naver">
+
+			<!-- query를 제외한 나머지는 숨기기  -->
+			<input type="hidden" name="where" value="nexearch"/>
+			<input type="hidden" name="sm" value="top_hty"/>
+			<input type="hidden" name="fbm" value="0"/>
+			<input type="hidden" name="ie" value="utf8"/>
+			<input type="text" name="query"/>
+			<input type="submit" />
+		
+		</form>
+	</div>
+
+</body>
+</html>
