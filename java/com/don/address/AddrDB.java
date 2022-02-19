@@ -2,8 +2,10 @@ package com.don.address;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class AddrDB {
 
@@ -47,6 +49,41 @@ public class AddrDB {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	// 기능을 담당하는 sql
+	// sql을 운반하는 statement
+	// 이를 통신하기 위한 conn
+
+	// insert는 데이터를 보내는 반면에 select는 조회결과가 있다. 결과 반환은 ResultSet
+	public ArrayList<Addr> selectDatas() {
+
+		String sql = "SELECT * FROM addr";
+
+		Connection conn = getConnection();
+
+		ArrayList<Addr> addrList = new ArrayList<>();
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				int idx = rs.getInt("idx"); // 현재 가리키는 행의 idx 컬럼값을 int 반환
+				String name = rs.getString("name"); // 현재 가리키는 행의 name 컬럼값을 String 반환
+				String address = rs.getString("address");
+				String phone = rs.getString("phone");
+
+				Addr addr = new Addr(idx, name, address, phone);
+				addrList.add(addr);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return addrList;
 	}
 
 }
