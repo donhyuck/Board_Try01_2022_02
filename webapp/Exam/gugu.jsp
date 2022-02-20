@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- http://localhost:9100/Exam/gugu.jsp?n=1&m=9&limit=9 -->
 	<h3>응용 구구단</h3>
 	<%
 	// JSP는 실행시 톰캣에 내장되어 있는 Jasper 엔진에 의해 서블릿으로 변환되어 실행됨.

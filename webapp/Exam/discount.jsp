@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- http://localhost:9100/Exam/discount.jsp?age=34 -->
 	<h3>할인 대상 판별</h3>
 
 	<%	int age = Integer.parseInt(request.getParameter("age"));	%>
