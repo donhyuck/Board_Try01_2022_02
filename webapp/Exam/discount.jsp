@@ -9,7 +9,7 @@
 <body>
 	<h3>할인 대상 판별</h3>
 
-	<%	int age = 77;	%>
+	<%	int age = Integer.parseInt(request.getParameter("age"));	%>
 	당신은 <% out.print(age); %>세 입니다.
 	
 	<%	if (age < 20 || age > 60) {	%>
