@@ -24,3 +24,13 @@ INSERT INTO addr
 SET `name` = '홍길동',
 address = '서울',
 phone = '010-1111-1111';
+
+INSERT INTO addr
+SET `name` = '이몽룡',
+address = '수원',
+phone = '010-2222-2222';
+
+INSERT INTO addr
+SET `name` = '성춘향',
+address = '화성',
+phone = '010-3333-3333';
