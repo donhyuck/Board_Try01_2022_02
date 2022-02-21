@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,33 +28,18 @@ public class AddressServlet extends HttpServlet {
 		// 주소록 추가
 
 		// 주소록 조회
+		// 1. DB에 접근해서 데이터를 받는다.
 		AddrDB db = new AddrDB();
 		ArrayList<Addr> addrList = db.selectDatas();
 
-		out.println("<!DOCTYPE html>");
-		out.println("<html>");
-		out.println("<head>");
-		out.println("<meta charset=\"UTF-8\">");
-		out.println("<title>주소록 메뉴</title>");
-		out.println("</head>");
-		out.println("<body>");
-		out.println("	<h3>주소록 메뉴</h3>");
-		
-		for (int i = 0; i <= addrList.size(); i++) {
+		// 2. addrList데이터를 넘기기 위해서 request객체에 해당 정보를 저장한다.
+		request.setAttribute("addrList", addrList);
 
-			Addr addr = addrList.get(i);
-			
-			out.println("	<div>");
-			out.println("	번호 : " + addr.getIdx() + " <br />");
-			out.println("	이름 : " + addr.getName() + " <br />");
-			out.println("	주소 : " + addr.getAddress() + " <br />");
-			out.println("	전화 : " + addr.getPhone() + " <br />");
-			out.println("	</div>");
-			out.println("	<hr>");
-		}
-
-		out.println("</body>");
-		out.println("</html>");
+		// 서블릿에서 처리한 결과를 jsp로 보내야한다.
+		// 3. request객체를 다른 서블릿으로 넘긴다. (포워딩)
+		// 서버 루트 경로 --> / (webapp)
+		RequestDispatcher rd = request.getRequestDispatcher("/Address/list.jsp");
+		rd.forward(request, response);
 
 	}
 
