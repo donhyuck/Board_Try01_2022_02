@@ -1,7 +1,6 @@
 package com.don.address;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -11,8 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/addr")
+@WebServlet("/addr/*")
 public class AddressServlet extends HttpServlet {
+
+	AddrDB db = new AddrDB();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -23,13 +24,45 @@ public class AddressServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		PrintWriter out = response.getWriter();
+		// 사용자가 원하는 기능을 uri를 쪼개서 구분한다.
+		String uri = request.getRequestURI();
+
+		String[] uriPieces = uri.split("/");
+
+		if (uriPieces.length < 3) {
+			// 에러페이지
+			System.out.println("잘못된 요청입니다.");
+			return;
+		}
+
+		String func = uriPieces[2];
 
 		// 주소록 추가
+		if (func.equals("add")) {
+
+			String name = request.getParameter("name");
+			String address = request.getParameter("address");
+			String phone = request.getParameter("phone");
+
+			db.insertData(name, address, phone);
+			list(request, response);
+		}
 
 		// 주소록 조회
+		else if (func.equals("list")) {
+			list(request, response);
+
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		// 1. DB에 접근해서 데이터를 받는다.
-		AddrDB db = new AddrDB();
 		ArrayList<Addr> addrList = db.selectDatas();
 
 		// 2. addrList데이터를 넘기기 위해서 request객체에 해당 정보를 저장한다.
@@ -40,12 +73,5 @@ public class AddressServlet extends HttpServlet {
 		// 서버 루트 경로 --> / (webapp)
 		RequestDispatcher rd = request.getRequestDispatcher("/Address/list.jsp");
 		rd.forward(request, response);
-
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
-	}
-
 }

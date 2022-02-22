@@ -37,9 +37,11 @@ public class AddrDB {
 
 	// SQL을 운반하는 객체 Statement
 	// 데이터를 DB에 저장하는 메서드
-	public void insertData() {
+	public void insertData(String name, String address, String phone) {
 
-		String sql = "INSERT INTO addr SET `name` = '홍길동', address = '서울', phone = '010-1111-1111'";
+		// 데이터를 받아서 insert한다.
+		String sql = String.format("INSERT INTO addr SET `name` = '%s', address = '%s', phone = '%s'", name, address,
+				phone);
 
 		Connection conn = getConnection();
 
