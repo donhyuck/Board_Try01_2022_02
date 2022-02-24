@@ -8,7 +8,13 @@
 <title>게시물 목록</title>
 </head>
 <body>
+<!-- 아래의 경우 서블릿을 거치지 않고 처리된다. 게시글 등록 페이지로 넘어가는 기능을 구현한다. -->
+<!-- <a href="http://localhost:9100/Article/addForm.jsp">글쓰기</a>  -->
+	
 	<h3>게시물 목록</h3>
+	<hr />
+	<a href="http://localhost:9100/article/showAddForm">글쓰기</a>
+	<hr />
 
 	<c:forEach items="${ articleList }" var="article">
 		<div>
