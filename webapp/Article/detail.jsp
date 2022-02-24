@@ -8,6 +8,9 @@
 </head>
 <body>
 	<h3>게시글 상세</h3>
+	<hr />
+	<a href="http://localhost:9100/article/list">목록으로 이동</a>
+	<hr />
 
 	<div>
 		번 호 : ${ article.idx }		 <br />

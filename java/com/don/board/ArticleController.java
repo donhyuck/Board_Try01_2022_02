@@ -65,8 +65,8 @@ public class ArticleController extends HttpServlet {
 		}
 		// 게시글 상세보기
 		else if (func.equals("detail")) {
-			// 원하는 게시글 번호에 따라 이동해햐함
-			Article article = db.getArticleByIdx(1);
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			Article article = db.getArticleByIdx(idx);	
 			request.setAttribute("article", article);
 			forward(request, response, "/Article/detail.jsp");
 
