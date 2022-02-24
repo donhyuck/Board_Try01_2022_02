@@ -54,9 +54,7 @@ public class ArticleDB {
 	}
 
 	//
-	public ArrayList<Article> getArticleList() {
-
-		String sql = "SELECT * FROM article";
+	public ArrayList<Article> getArticleList(String sql) {
 
 		Connection conn = getConnection();
 
@@ -83,5 +81,29 @@ public class ArticleDB {
 		}
 
 		return articleList;
+	}
+
+	public ArrayList<Article> getArticles() {
+
+		String sql = "SELECT * FROM article";
+
+		ArrayList<Article> articles = getArticleList(sql);
+
+		return articles;
+	}
+
+	public Article getArticleByIdx(int idx) {
+
+		Article foundArticle = null;
+
+		String sql = String.format("SELECT * FROM article WHERE idx = %d", idx);
+
+		ArrayList<Article> articles = getArticleList(sql);
+
+		if (articles.size() > 0) {
+			foundArticle = articles.get(0);
+		}
+
+		return foundArticle;
 	}
 }

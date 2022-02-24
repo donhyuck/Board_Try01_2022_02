@@ -45,7 +45,12 @@ public class ArticleController extends HttpServlet {
 			String nickname = request.getParameter("nickname");
 
 			db.insertArticle(title, body, nickname);
-			list(request, response);
+
+			// 포워드 => 요청 정보를 재사용. url 안바뀜 / 반복적으로 요청이 될 수 있다.
+			// 리다이렉트 => 새로운 요청을 보냄. url 바꿈.
+			// list(request, response);
+
+			response.sendRedirect("/article/list");
 		}
 		// 게시글 목록
 		else if (func.equals("list")) {
@@ -56,6 +61,14 @@ public class ArticleController extends HttpServlet {
 		else if (func.equals("showAddForm")) {
 			RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
 			rd.forward(request, response);
+
+		}
+		// 게시글 상세보기
+		else if (func.equals("detail")) {
+			// 원하는 게시글 번호에 따라 이동해햐함
+			Article article = db.getArticleByIdx(1);
+			request.setAttribute("article", article);
+			forward(request, response, "/Article/detail.jsp");
 
 		}
 
@@ -69,7 +82,7 @@ public class ArticleController extends HttpServlet {
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// 1. DB에 접근해서 데이터를 받는다.
-		ArrayList<Article> articleList = db.getArticleList();
+		ArrayList<Article> articleList = db.getArticles();
 
 		// 2. articleList데이터를 넘기기 위해서 request객체에 해당 정보를 저장한다.
 		request.setAttribute("articleList", articleList);

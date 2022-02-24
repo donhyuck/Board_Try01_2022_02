@@ -67,3 +67,7 @@ SET regDate = NOW(),
 title = '제목3',
 `body` = '내용3',
 nickname = '이몽룡';
+
+# 원하는 게시글 조회
+SELECT * FROM article
+WHERE idx = 1;
