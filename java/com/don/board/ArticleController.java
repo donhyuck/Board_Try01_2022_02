@@ -66,10 +66,30 @@ public class ArticleController extends HttpServlet {
 		// 게시글 상세보기
 		else if (func.equals("detail")) {
 			int idx = Integer.parseInt(request.getParameter("idx"));
-			Article article = db.getArticleByIdx(idx);	
+			Article article = db.getArticleByIdx(idx);
 			request.setAttribute("article", article);
+
 			forward(request, response, "/Article/detail.jsp");
 
+		}
+		// 게시글 수정
+		// 수정기능을 수행하는 부분과
+		else if (func.equals("update")) {
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+
+			db.updateArticle(idx, title, body);
+			// 다시 자신의 화면으로 돌아간다.
+			response.sendRedirect("/article/detail?idx=" + idx);
+		}
+		// 서블릿을 통하도록 연결하는 부분이 있다.
+		else if (func.equals("showUpdateForm")) {
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			Article article = db.getArticleByIdx(idx);
+			request.setAttribute("article", article);
+
+			forward(request, response, "/Article/updateForm.jsp");
 		}
 
 	}

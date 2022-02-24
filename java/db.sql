@@ -71,3 +71,9 @@ nickname = '이몽룡';
 # 원하는 게시글 조회
 SELECT * FROM article
 WHERE idx = 1;
+
+# 게시글 수정
+UPDATE article
+SET title='aaa',
+`body`='bbb'
+WHERE idx=1;

@@ -42,15 +42,7 @@ public class ArticleDB {
 				"INSERT INTO article SET regDate=NOW(), `title` = '%s', body = '%s', nickname = '%s'", title, body,
 				nickname);
 
-		Connection conn = getConnection();
-		Statement stmt = null;// 체크
-
-		try {
-			stmt = conn.createStatement(); // 체크
-			stmt.executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		updateQuery(sql);
 	}
 
 	//
@@ -106,4 +98,27 @@ public class ArticleDB {
 
 		return foundArticle;
 	}
+
+	// insert와 update에서의 공통부분을 묶는다.
+	public void updateQuery(String sql) {
+
+		Connection conn = getConnection();
+		Statement stmt = null;// 체크
+
+		try {
+			stmt = conn.createStatement(); // 체크
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void updateArticle(int idx, String title, String body) {
+
+		String sql = String.format("UPDATE article SET `title` = '%s', body = '%s' WHERE idx=%d", title, body, idx);
+
+		updateQuery(sql);
+	}
+
 }
