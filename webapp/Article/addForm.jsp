@@ -9,7 +9,7 @@
 <body>
 	<h3>게시글 등록</h3>
 
-	<form action="http://localhost:9100/article/add">
+	<form action="http://localhost:9100/article/add" method="POST">
 		<div>
 			제 목 : <input type="text" name="title"/> <br />
 			내 용 : <input type="text" name="body"/> <br />

@@ -15,10 +15,10 @@ public class ArticleController extends HttpServlet {
 
 	ArticleDB db = new ArticleDB();
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	// 공통코드
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		System.out.println("게시글 서블릿 실행");
 
 		// 인코딩 설정
 		response.setCharacterEncoding("UTF-8");
@@ -37,20 +37,45 @@ public class ArticleController extends HttpServlet {
 
 		String func = uriPieces[2];
 
+		// POST, GET 구분
+		String method = request.getMethod();
+
+		request.setAttribute("func", func);
+
+		if (method.equals("POST")) {
+
+			postProcess(request, response);
+
+		} else if (method.equals("GET")) {
+
+			getProcess(request, response);
+
+		}
+	}
+
+	// 자원을 처리할때 사용
+	private void postProcess(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String func = (String) request.getAttribute("func");
+
 		// 게시글 추가
 		if (func.equals("add")) {
+			doAdd(request, response);
 
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-			String nickname = request.getParameter("nickname");
+		}
+	}
 
-			db.insertArticle(title, body, nickname);
+	// 자원을 가져올 때 사용
+	private void getProcess(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-			// 포워드 => 요청 정보를 재사용. url 안바뀜 / 반복적으로 요청이 될 수 있다.
-			// 리다이렉트 => 새로운 요청을 보냄. url 바꿈.
-			// list(request, response);
+		String func = (String) request.getAttribute("func");
 
-			response.sendRedirect("/article/list");
+		// 게시글 추가
+		if (func.equals("add")) {
+			doAdd(request, response);
+
 		}
 		// 게시글 목록
 		else if (func.equals("list")) {
@@ -91,12 +116,22 @@ public class ArticleController extends HttpServlet {
 
 			forward(request, response, "/Article/updateForm.jsp");
 		}
-
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
+	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String title = request.getParameter("title");
+		String body = request.getParameter("body");
+		String nickname = request.getParameter("nickname");
+
+		db.insertArticle(title, body, nickname);
+
+		// 포워드 => 요청 정보를 재사용. url 안바뀜 / 반복적으로 요청이 될 수 있다.
+		// 리다이렉트 => 새로운 요청을 보냄. url 바꿈.
+		list(request, response);
+
+		// response.sendRedirect("/article/list");
+
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
