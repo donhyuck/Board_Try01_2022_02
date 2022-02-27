@@ -21,6 +21,7 @@ public class ArticleController extends HttpServlet {
 			throws ServletException, IOException {
 
 		// 인코딩 설정
+		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		System.out.println("공통코드 실행");
@@ -64,6 +65,17 @@ public class ArticleController extends HttpServlet {
 			doAdd(request, response);
 
 		}
+		// 수정기능을 수행하는 부분
+		else if (func.equals("update")) {
+
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+
+			db.updateArticle(idx, title, body);
+			// 다시 자신의 화면으로 돌아간다.
+			response.sendRedirect("/article/detail?idx=" + idx);
+		}
 	}
 
 	// 자원을 가져올 때 사용
@@ -72,12 +84,11 @@ public class ArticleController extends HttpServlet {
 
 		String func = (String) request.getAttribute("func");
 
-		// 게시글 추가
 		if (func.equals("add")) {
 			doAdd(request, response);
 
 		}
-		// 게시글 목록
+
 		else if (func.equals("list")) {
 			list(request, response);
 
@@ -98,16 +109,6 @@ public class ArticleController extends HttpServlet {
 
 		}
 		// 게시글 수정
-		// 수정기능을 수행하는 부분과
-		else if (func.equals("update")) {
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-
-			db.updateArticle(idx, title, body);
-			// 다시 자신의 화면으로 돌아간다.
-			response.sendRedirect("/article/detail?idx=" + idx);
-		}
 		// 서블릿을 통하도록 연결하는 부분이 있다.
 		else if (func.equals("showUpdateForm")) {
 			int idx = Integer.parseInt(request.getParameter("idx"));
@@ -118,6 +119,7 @@ public class ArticleController extends HttpServlet {
 		}
 	}
 
+	// 게시글 추가
 	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String title = request.getParameter("title");
@@ -134,6 +136,7 @@ public class ArticleController extends HttpServlet {
 
 	}
 
+	// 게시글 목록
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// 1. DB에 접근해서 데이터를 받는다.
