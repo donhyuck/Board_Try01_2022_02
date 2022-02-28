@@ -76,6 +76,14 @@ public class ArticleController extends HttpServlet {
 			// 다시 자신의 화면으로 돌아간다.
 			response.sendRedirect("/article/detail?idx=" + idx);
 		}
+		// 게시글 삭제
+		else if (func.equals("delete")) {
+
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			db.deleteArticle(idx);
+			
+			response.sendRedirect("/article/list");
+		}
 	}
 
 	// 자원을 가져올 때 사용

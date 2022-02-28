@@ -77,3 +77,7 @@ UPDATE article
 SET title='aaa',
 `body`='bbb'
 WHERE idx=1;
+
+# 게시글 삭제
+DELETE FROM article
+WHERE idx=1;

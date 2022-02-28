@@ -22,9 +22,18 @@
 	<hr />
 	
 	<!-- 해당 번호를 같이 쿼리스트링으로 넘긴다. -->
+	<!-- 수정 기능의 경우 a테그로 처리가능하지만 삭제기능과 양식을 통일하고자 form테그로 처리 -->
+	<!-- <a href="/article/showUpdateForm?idx=${ article.idx }">수정</a>  -->	
+	<!-- 삭제 기능은 POST 메서드로 처리해야한다. -->
 	<div>
-		<a href="/article/showUpdateForm?idx=${ article.idx }">수정</a>
-		<a href="#">삭제</a>
+		<form action="/article/showUpdateForm">
+			<input type="hidden" name="idx" value="${ article.idx }"/>
+			<input type="submit" value="수정"/>
+		</form>
+		<form action="/article/delete" method="POST">
+			<input type="hidden" name="idx" value="${ article.idx }"/>
+			<input type="submit" value="삭제"/>
+		</form>
 	</div>
 	
 

@@ -121,4 +121,11 @@ public class ArticleDB {
 		updateQuery(sql);
 	}
 
+	public void deleteArticle(int idx) {
+
+		String sql = String.format("DELETE FROM article WHERE idx=%d", idx);
+
+		updateQuery(sql);
+	}
+
 }
