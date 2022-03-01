@@ -80,4 +80,19 @@ WHERE idx=1;
 
 # 게시글 삭제
 DELETE FROM article
-WHERE idx=1;
+WHERE idx=10;
+
+# 회원 테이블 삭제
+DELETE FROM `member`;
+DROP TABLE `member`;
+
+# 게시물 테이블 생성
+CREATE TABLE `member` (
+    idx INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    loginId VARCHAR(50) NOT NULL,
+    loginPw VARCHAR(50) NOT NULL,
+    nickname VARCHAR(30) NOT NULL
+);
+
+SELECT * FROM `member`;
