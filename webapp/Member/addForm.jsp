@@ -9,7 +9,7 @@
 <body>
 	<h3>회원가입</h3>
 
-	<form action="http://localhost:9100/member/add" method="POST">
+	<form action="http://localhost:9100/member/add.do" method="POST">
 		<div>
 			아이디 : <input type="text" name="loginId"/> <br />
 			비밀번호 : <input type="text" name="loginPw"/> <br />

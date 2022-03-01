@@ -48,4 +48,14 @@ public class MemberDB {
 		}
 
 	}
+
+	// 회원가입
+	public void insertMember(String loginId, String loginPw, String nickname) {
+
+		String sql = String.format(
+				"INSERT INTO `member` SET regDate=NOW(), loginId = '%s', loginPw = '%s', nickname = '%s'", loginId,
+				loginPw, nickname);
+
+		updateQuery(sql);
+	}
 }

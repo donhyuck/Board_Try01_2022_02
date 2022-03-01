@@ -86,7 +86,7 @@ WHERE idx=10;
 DELETE FROM `member`;
 DROP TABLE `member`;
 
-# 게시물 테이블 생성
+# 회원 테이블 생성
 CREATE TABLE `member` (
     idx INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
@@ -96,3 +96,10 @@ CREATE TABLE `member` (
 );
 
 SELECT * FROM `member`;
+
+#회원 추가
+INSERT INTO `member`
+SET regDate=NOW(),
+loginId="admin",
+loginPw="admin",
+nickname="관리자";

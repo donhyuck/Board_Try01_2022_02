@@ -1,7 +1,6 @@
 package com.don.board;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/*")
+@WebServlet("*.do")
 public class MemberController extends HttpServlet {
 
 	MemberDB db = new MemberDB();
@@ -61,7 +60,7 @@ public class MemberController extends HttpServlet {
 		String func = (String) request.getAttribute("func");
 
 		// 회원가입
-		if (func.equals("add")) {
+		if (func.equals("add.do")) {
 			doAdd(request, response);
 
 		}
@@ -73,7 +72,7 @@ public class MemberController extends HttpServlet {
 
 		String func = (String) request.getAttribute("func");
 
-		if (func.equals("add")) {
+		if (func.equals("add.do")) {
 			doAdd(request, response);
 
 		}
@@ -86,11 +85,10 @@ public class MemberController extends HttpServlet {
 		String loginPw = request.getParameter("loginPw");
 		String nickname = request.getParameter("nickname");
 
-//		db.insertArticle(loginId, loginPw, nickname);
+		db.insertMember(loginId, loginPw, nickname);
 
-		// list(request, response);
-
-		// response.sendRedirect("/article/list");
+		// 가입 이후 게시글 목록으로
+		response.sendRedirect("/article/list");
 
 	}
 
