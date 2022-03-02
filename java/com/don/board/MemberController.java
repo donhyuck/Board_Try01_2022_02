@@ -63,6 +63,21 @@ public class MemberController extends HttpServlet {
 		if (func.equals("add.do")) {
 			doAdd(request, response);
 
+		} else if (func.equals("login.do")) {
+
+			String loginId = request.getParameter("loginId");
+			String loginPw = request.getParameter("loginPw");
+
+			int idx = db.getMemberIdxByLoginInfo(loginId, loginPw);
+
+			if (idx != 0) {
+				// 로그인 처리
+				Member member = db.getMemberByIdx(idx);
+				System.out.println(member.getNickname() + "님 로그인 성공");
+
+			} else {
+				System.out.println("로그인 실패");
+			}
 		}
 	}
 

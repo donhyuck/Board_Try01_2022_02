@@ -58,4 +58,73 @@ public class MemberDB {
 
 		updateQuery(sql);
 	}
+
+	public ArrayList<Member> getMemberList(String sql) {
+
+		Connection conn = getConnection();
+
+		ArrayList<Member> memberList = new ArrayList<>();
+
+		try {
+			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				int idx = rs.getInt("idx");
+				String regDate = rs.getString("regDate");
+				String loginId = rs.getString("loginId");
+				String loginPw = rs.getString("loginPw");
+				String nickname = rs.getString("nickname");
+
+				Member member = new Member(idx, regDate, loginId, loginPw, nickname);
+				memberList.add(member);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return memberList;
+	}
+
+	// 회원번호로 회원정보 가져오기
+	public Member getMemberByIdx(int idx) {
+
+		Member foundMember = null;
+
+		String sql = String.format("SELECT * FROM `member` WHERE idx = %d", idx);
+
+		ArrayList<Member> members = getMemberList(sql);
+
+		if (members.size() > 0) {
+			foundMember = members.get(0);
+		}
+
+		return foundMember;
+	}
+
+	// 로그인 정보로 회원번호 가져오기
+	public int getMemberIdxByLoginInfo(String loginId, String loginPw) {
+
+		String sql = String.format("SELECT idx FROM `member` WHERE loginId = '%s' AND loginPw = '%s'", loginId, loginPw);
+
+		Connection conn = getConnection();
+		int foundMemberIdx = 0;
+
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			if (rs.next()) {
+				foundMemberIdx = rs.getInt("idx");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return foundMemberIdx;
+	}
+
 }
