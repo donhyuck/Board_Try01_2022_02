@@ -13,6 +13,9 @@
 <!-- 목록에서 원하는 인덱스로 들어가고자 할때 <a href="/article/detail?idx=${ article.idx }"> -->
 	<h3>게시물 목록</h3>
 	<hr />
+		${ loginedUserName }님 안녕하세요!
+		<a href="/member/showLoginForm.do">로그인</a>
+	<hr />
 	<a href="http://localhost:9100/Member/addForm.jsp">회원가입</a>
 	<a href="http://localhost:9100/article/showAddForm">글쓰기</a>
 	<hr />

@@ -1,6 +1,7 @@
 package com.don.board;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class MemberController extends HttpServlet {
 
 	MemberDB db = new MemberDB();
+	ArticleDB adb = new ArticleDB();
 
 	// 공통코드
 	@Override
@@ -73,7 +75,14 @@ public class MemberController extends HttpServlet {
 			if (idx != 0) {
 				// 로그인 처리
 				Member member = db.getMemberByIdx(idx);
-				System.out.println(member.getNickname() + "님 로그인 성공");
+
+				// 로그인 처리를 하면서 회원정보만 넘어가기 때문에 게시글 관련 정보를 받을 수 없다.
+				// 게시글 데이터 베이스를 받아본다.
+				ArrayList<Article> articleList = adb.getArticles();
+
+				request.setAttribute("loginedUserName", member.getNickname());
+				request.setAttribute("articleList", articleList);
+				forward(request, response, "/Article/list.jsp");
 
 			} else {
 				System.out.println("로그인 실패");
@@ -87,8 +96,8 @@ public class MemberController extends HttpServlet {
 
 		String func = (String) request.getAttribute("func");
 
-		if (func.equals("add.do")) {
-			doAdd(request, response);
+		if (func.equals("showLoginForm.do")) {
+			forward(request, response, "/Member/loginForm.jsp");
 
 		}
 	}
