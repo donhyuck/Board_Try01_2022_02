@@ -99,6 +99,9 @@ public class MemberController extends HttpServlet {
 		if (func.equals("showLoginForm.do")) {
 			forward(request, response, "/Member/loginForm.jsp");
 
+		} else if (func.equals("logout.do")) {
+			// 로그아웃 처리
+			response.sendRedirect("/article/list");
 		}
 	}
 
