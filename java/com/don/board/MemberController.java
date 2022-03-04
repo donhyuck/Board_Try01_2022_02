@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("*.do")
 public class MemberController extends HttpServlet {
@@ -73,19 +74,25 @@ public class MemberController extends HttpServlet {
 			int idx = db.getMemberIdxByLoginInfo(loginId, loginPw);
 
 			if (idx != 0) {
+				// 로그인 처리를 하면서 회원정보만 넘어가기 때문에 게시글 관련 정보를 받을 수 없다.
+				// 게시글 데이터 베이스를 받아본다.
+				// ArrayList<Article> articleList = adb.getArticles();
+				// forward(request, response, "/Article/list.jsp");
+				// 세션을 이용하면 포워딩을 하지 않아도 된다.
+
 				// 로그인 처리
 				Member member = db.getMemberByIdx(idx);
 
-				// 로그인 처리를 하면서 회원정보만 넘어가기 때문에 게시글 관련 정보를 받을 수 없다.
-				// 게시글 데이터 베이스를 받아본다.
-				ArrayList<Article> articleList = adb.getArticles();
+				// request는 데이터 유지가 힘들다.
+				// 로그인 정보가 유지하기 위해 session을 이용한다.
+				HttpSession session = request.getSession();
+				session.setAttribute("loginedUserName", member.getNickname());
 
-				request.setAttribute("loginedUserName", member.getNickname());
-				request.setAttribute("articleList", articleList);
-				forward(request, response, "/Article/list.jsp");
+				response.sendRedirect("/article/list");
 
 			} else {
 				System.out.println("로그인 실패");
+				response.sendRedirect("/article/list");
 			}
 		}
 	}
@@ -101,6 +108,10 @@ public class MemberController extends HttpServlet {
 
 		} else if (func.equals("logout.do")) {
 			// 로그아웃 처리
+			// session내용을 지운다.
+			HttpSession session = request.getSession();
+			session.removeAttribute("loginedUserName");
+
 			response.sendRedirect("/article/list");
 		}
 	}

@@ -103,3 +103,14 @@ SET regDate=NOW(),
 loginId="admin",
 loginPw="admin",
 nickname="관리자";
+
+#로그인 정보로 회원번호 조회
+SELECT idx
+FROM `member`
+WHERE loginId='admin'
+AND loginPw='admin';
+
+# 회원번호에 해당하는 회원로그인
+SELECT *
+FROM `member`
+WHERE idx=1;
