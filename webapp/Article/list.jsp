@@ -17,17 +17,10 @@
 	<c:if test="${ popupYn == null }">
 		<h5>=== 팝업창 === </h5>
 	</c:if>
-		<c:choose>
-			<c:when test="${ loginedUserName == null }">
-				<a href="/member/showLoginForm.do">로그인</a>
-			</c:when>
-			
-			<c:otherwise>
-				${ loginedUserName }님 안녕하세요!
-				<a href="/member/logout.do">로그아웃</a>			
-			</c:otherwise>
-		</c:choose>
-	<hr />
+	
+	<!-- jsp조각페이지 재사용 -->
+	<%@ include file="header.jspf" %>
+		
 	<a href="http://localhost:9100/Member/addForm.jsp">회원가입</a>
 	<a href="http://localhost:9100/article/showAddForm">글쓰기</a>
 	<hr />

@@ -9,20 +9,8 @@
 </head>
 <body>
 	<h3>게시글 상세</h3>
-	<hr />
-	<a href="http://localhost:9100/article/list">목록으로 이동</a>
-	<hr />
-		<c:choose>
-			<c:when test="${ loginedUserName == null }">
-				<a href="/member/showLoginForm.do">로그인</a>
-			</c:when>
-			
-			<c:otherwise>
-				${ loginedUserName }님 안녕하세요!
-				<a href="/member/logout.do">로그아웃</a>			
-			</c:otherwise>
-		</c:choose>
-	<hr />
+	
+	<%@ include file="header.jspf" %>
 
 	<div>
 		번 호 : ${ article.idx }		 <br />
@@ -32,6 +20,7 @@
 		작성자 : ${ article.nickname } <br />
 	</div>
 	<hr />
+	<a href="http://localhost:9100/article/list">목록으로 이동</a>
 	
 	<!-- 해당 번호를 같이 쿼리스트링으로 넘긴다. -->
 	<!-- 수정 기능의 경우 a테그로 처리가능하지만 삭제기능과 양식을 통일하고자 form테그로 처리 -->
