@@ -1,11 +1,11 @@
 package com.don.board;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,6 +87,23 @@ public class MemberController extends HttpServlet {
 				// 로그인 정보가 유지하기 위해 session을 이용한다.
 				HttpSession session = request.getSession();
 				session.setAttribute("loginedUserName", member.getNickname());
+
+				// 리다이렉트 전에 쿠키를 넣어서 보낸다.
+				// 쿠키 추가
+				// 쿠키 기본 패스 => /member/login.do
+				Cookie popupCookie = new Cookie("popupYn", "true");
+
+				// 쿠키 옵션
+				// 1. path
+				popupCookie.setPath("/");
+
+				// 2. 만료 날짜 (sec단위)
+				popupCookie.setMaxAge(60 * 10); // 10분가 유지
+
+				// 3. 도메인 (프로그램 개발에 따라 도메인이 다수가 되면, 도메인 별로 쿠키를 다르게 할 수 있다.)
+				// popupCookie.setDomain("m.naver.com");
+				
+				response.addCookie(popupCookie);
 
 				response.sendRedirect("/article/list");
 

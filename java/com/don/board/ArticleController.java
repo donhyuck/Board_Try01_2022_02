@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,7 +82,7 @@ public class ArticleController extends HttpServlet {
 
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			db.deleteArticle(idx);
-			
+
 			response.sendRedirect("/article/list");
 		}
 	}
@@ -156,6 +157,18 @@ public class ArticleController extends HttpServlet {
 		// 서블릿에서 처리한 결과를 jsp로 보내야한다.
 		// 3. request객체를 다른 서블릿으로 넘긴다. (포워딩)
 		// 서버 루트 경로 --> / (webapp)
+
+		// 팝업띄우기
+		Cookie[] cookies = request.getCookies();
+
+		if (cookies != null) {
+			for (Cookie c : cookies) {
+				if (c.getName().equals("popupYn")) {
+					request.setAttribute("popupYn", c.getValue());
+				}
+			}
+		}
+
 		forward(request, response, "/Article/list.jsp");
 
 	}
