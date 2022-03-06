@@ -12,7 +12,6 @@
 <!-- <a href="http://localhost:9100/Article/addForm.jsp">글쓰기</a>  -->
 <!-- 목록에서 원하는 인덱스로 들어가고자 할때 <a href="/article/detail?idx=${ article.idx }"> -->
 	<h3>게시물 목록</h3>
-	<hr />
 	<!-- 팝업창 / 쿠키정보가 없으면 뜬다-->
 	<c:if test="${ popupYn == null }">
 		<h5>=== 팝업창 === </h5>

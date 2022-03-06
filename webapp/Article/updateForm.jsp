@@ -9,6 +9,8 @@
 <body>
 <!-- 수정할때 이전 등록내용을 불러와서 이를 수정해야 한다. -->
 	<h3>게시글 수정</h3>
+	
+	<%@ include file="header.jspf" %>
 
 	<form action="http://localhost:9100/article/update" method="POST">
 		<div>

@@ -21,12 +21,6 @@ public class ArticleController extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// 인코딩 설정
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		System.out.println("공통코드 실행");
-
 		// 사용자가 원하는 기능을 uri를 쪼개서 구분한다.
 		String uri = request.getRequestURI();
 
@@ -61,14 +55,13 @@ public class ArticleController extends HttpServlet {
 
 		String func = (String) request.getAttribute("func");
 
-		// 게시글 추가
 		if (func.equals("add")) {
+			// 게시글 추가
 			doAdd(request, response);
 
-		}
-		// 수정기능을 수행하는 부분
-		else if (func.equals("update")) {
+		} else if (func.equals("update")) {
 
+			// 수정기능을 수행하는 부분
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
@@ -76,10 +69,10 @@ public class ArticleController extends HttpServlet {
 			db.updateArticle(idx, title, body);
 			// 다시 자신의 화면으로 돌아간다.
 			response.sendRedirect("/article/detail?idx=" + idx);
-		}
-		// 게시글 삭제
-		else if (func.equals("delete")) {
 
+		} else if (func.equals("delete")) {
+
+			// 게시글 삭제
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			db.deleteArticle(idx);
 
@@ -96,30 +89,32 @@ public class ArticleController extends HttpServlet {
 		if (func.equals("add")) {
 			doAdd(request, response);
 
-		}
-
-		else if (func.equals("list")) {
+		} else if (func.equals("list")) {
 			list(request, response);
 
-		}
-		// 게시글 등록 페이지
-		else if (func.equals("showAddForm")) {
+		} else if (func.equals("showAddForm")) {
+			
+			// 로그인한 사용자에게만 기능을 수행한다.
+
+			// 게시글 등록 페이지
 			RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
 			rd.forward(request, response);
 
-		}
-		// 게시글 상세보기
-		else if (func.equals("detail")) {
+		} else if (func.equals("detail")) {
+			
+			// 로그인한 사용자에게만 기능을 수행한다.
+
+			// 게시글 상세보기
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			Article article = db.getArticleByIdx(idx);
 			request.setAttribute("article", article);
 
 			forward(request, response, "/Article/detail.jsp");
 
-		}
-		// 게시글 수정
-		// 서블릿을 통하도록 연결하는 부분이 있다.
-		else if (func.equals("showUpdateForm")) {
+		} else if (func.equals("showUpdateForm")) {
+
+			// 게시글 수정
+			// 서블릿을 통하도록 연결하는 부분이 있다.
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			Article article = db.getArticleByIdx(idx);
 			request.setAttribute("article", article);

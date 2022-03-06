@@ -8,6 +8,7 @@
 </head>
 <body>
 	<h3>로그인</h3>
+	
 	<form action="/member/login.do" method="POST">
 		<div>
 			아이디 : <input type="text" name="loginId"/>		<br />
