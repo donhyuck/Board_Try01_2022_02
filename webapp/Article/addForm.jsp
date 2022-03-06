@@ -16,7 +16,8 @@
 		<div>
 			제 목 : <input type="text" name="title"/> <br />
 			내 용 : <input type="text" name="body"/> <br />
-			작성자 : <input type="text" name="nickname"/> <br />
+			작성자 : ${ loginedUserName }
+			<input type="hidden" name="nickname" value="${ loginedUserName }"/> <br />
 			<input type="submit" value="게시글 등록" />
 		</div>
 	</form>

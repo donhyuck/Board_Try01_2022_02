@@ -10,6 +10,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/article/*")
 public class ArticleController extends HttpServlet {
@@ -93,16 +94,15 @@ public class ArticleController extends HttpServlet {
 			list(request, response);
 
 		} else if (func.equals("showAddForm")) {
-			
-			// 로그인한 사용자에게만 기능을 수행한다.
+
+			HttpSession session = request.getSession();
+			String loginedUserName = (String) session.getAttribute("loginedUserName");
 
 			// 게시글 등록 페이지
 			RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
 			rd.forward(request, response);
 
 		} else if (func.equals("detail")) {
-			
-			// 로그인한 사용자에게만 기능을 수행한다.
 
 			// 게시글 상세보기
 			int idx = Integer.parseInt(request.getParameter("idx"));
