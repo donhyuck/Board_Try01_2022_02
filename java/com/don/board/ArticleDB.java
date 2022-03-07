@@ -39,7 +39,7 @@ public class ArticleDB {
 	public void insertArticle(String title, String body, String nickname) {
 
 		String sql = String.format(
-				"INSERT INTO article SET regDate=NOW(), `title` = '%s', body = '%s', nickname = '%s'", title, body,
+				"INSERT INTO article SET regDate=NOW(), `title` = '%s', `body` = '%s', nickname = '%s'", title, body,
 				nickname);
 
 		updateQuery(sql);
@@ -116,7 +116,7 @@ public class ArticleDB {
 
 	public void updateArticle(int idx, String title, String body) {
 
-		String sql = String.format("UPDATE article SET `title` = '%s', body = '%s' WHERE idx=%d", title, body, idx);
+		String sql = String.format("UPDATE article SET `title` = '%s', `body` = '%s' WHERE idx=%d", title, body, idx);
 
 		updateQuery(sql);
 	}
@@ -125,6 +125,15 @@ public class ArticleDB {
 
 		String sql = String.format("DELETE FROM article WHERE idx=%d", idx);
 
+		updateQuery(sql);
+	}
+
+	public void insertReply(int articleIdx, String body, String nickname) {
+
+		String sql = String.format(
+				"INSERT INTO articleReply SET regDate=NOW(), articleIdx = '%d', `body` = '%s', nickname = '%s'",
+				articleIdx, body, nickname);
+		
 		updateQuery(sql);
 	}
 

@@ -78,6 +78,19 @@ public class ArticleController extends HttpServlet {
 			db.deleteArticle(idx);
 
 			response.sendRedirect("/article/list");
+
+		} else if (func.equals("addReply")) {
+
+			// 댓글 작성
+			// 사용자에게 넘겨받는 데이터는 댓글내용이지만
+			// 댓글을 구성하는 데이터는 해당 게시글 번호, 작성자 등이 필요하다.
+			int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+			String body = request.getParameter("body");
+			String nickname = request.getParameter("nickname");
+
+			db.insertReply(articleIdx, body, nickname);
+
+			response.sendRedirect("/article/detail?idx=" + articleIdx);
 		}
 	}
 

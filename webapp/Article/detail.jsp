@@ -37,6 +37,17 @@
 		</form>
 	</div>
 	
+	<hr />
+	<h4> 댓글 </h4>
+	<div>
+		<form action="/article/addReply" method="POST">
+			${ loginedUserName }	<br />
+			<input type="text" name="body" placeholder="여기에 댓글을 입력하세요." />
+			<input type="hidden" name="articleIdx" value="${ article.idx }" />
+			<input type="hidden" name="nickname" value="${ loginedUserName }" />
+			<input type="submit" value="댓글 남기기"/>
+		</form>
+	</div>
 
 </body>
 </html>

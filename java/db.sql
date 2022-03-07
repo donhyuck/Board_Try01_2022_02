@@ -114,3 +114,25 @@ AND loginPw='admin';
 SELECT *
 FROM `member`
 WHERE idx=1;
+
+# 댓글 테이블 삭제
+DELETE FROM articleReply;
+DROP TABLE articleReply;
+
+# 댓글 테이블 생성
+CREATE TABLE articleReply (
+    idx INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    articleIdx INT UNSIGNED,
+    `body` VARCHAR(200) NOT NULL,
+    nickname VARCHAR(30) NOT NULL
+);
+
+SELECT * FROM articleReply;
+
+# 댓글 작성
+INSERT INTO articleReply
+SET regDate=NOW(),
+articleIdx=1,
+`body`="test",
+nickname="관리자";
