@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 public class ArticleController extends HttpServlet {
 
 	ArticleDB db = new ArticleDB();
+	ReplyDB rdb = new ReplyDB();
 
 	// 공통코드
 	@Override
@@ -88,7 +89,7 @@ public class ArticleController extends HttpServlet {
 			String body = request.getParameter("body");
 			String nickname = request.getParameter("nickname");
 
-			db.insertReply(articleIdx, body, nickname);
+			rdb.insertReply(articleIdx, body, nickname);
 
 			response.sendRedirect("/article/detail?idx=" + articleIdx);
 		}
@@ -120,7 +121,12 @@ public class ArticleController extends HttpServlet {
 			// 게시글 상세보기
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			Article article = db.getArticleByIdx(idx);
+
+			// 댓글 목록 보기
+			ArrayList<Reply> replies = rdb.getRepliesByArticleIdx(idx);
+
 			request.setAttribute("article", article);
+			request.setAttribute("replies", replies);
 
 			forward(request, response, "/Article/detail.jsp");
 

@@ -39,6 +39,17 @@
 	
 	<hr />
 	<h4> 댓글 </h4>
+	<!-- 댓글 목록 -->
+	<c:forEach items="${ replies }" var="reply">
+		<div>
+			${ reply.nickname } <br />
+			${ reply.body } <br />
+			${ reply.regDate } <br />
+		</div>
+		<hr />
+	</c:forEach>
+	
+	<!-- 댓글 작성구역 -->
 	<div>
 		<form action="/article/addReply" method="POST">
 			${ loginedUserName }	<br />

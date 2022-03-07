@@ -127,14 +127,4 @@ public class ArticleDB {
 
 		updateQuery(sql);
 	}
-
-	public void insertReply(int articleIdx, String body, String nickname) {
-
-		String sql = String.format(
-				"INSERT INTO articleReply SET regDate=NOW(), articleIdx = '%d', `body` = '%s', nickname = '%s'",
-				articleIdx, body, nickname);
-		
-		updateQuery(sql);
-	}
-
 }
