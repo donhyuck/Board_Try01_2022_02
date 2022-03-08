@@ -115,4 +115,11 @@ public class ReplyDB {
 
 		updateQuery(sql);
 	}
+
+	public void deleteReply(int idx) {
+
+		String sql = String.format("DELETE FROM articleReply WHERE idx='%d'", idx);
+
+		updateQuery(sql);
+	}
 }

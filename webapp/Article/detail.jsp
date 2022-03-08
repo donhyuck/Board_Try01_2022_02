@@ -61,11 +61,13 @@
 			
 			<!-- 댓글 수정 및 삭제 -->
 			<div>
-				<form action="/article/showReplyForm">
+				<form action="/article/showReplyForm" method="GET">
 					<input type="hidden" name="idx" value="${ reply.idx }" />
 					<input type="submit" value="수정" />
 				</form>
-				<form action="">
+				<form action="/article/doReplyDelete" method="POST">
+					<input type="hidden" name="idx" value="${ reply.idx }" />
+					<input type="hidden" name="articleIdx" value="${ reply.articleIdx }" />
 					<input type="submit" value="삭제" />
 				</form>
 			</div>

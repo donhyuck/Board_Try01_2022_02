@@ -102,6 +102,15 @@ public class ArticleController extends HttpServlet {
 
 			rdb.updateReply(idx, body);
 			response.sendRedirect("/article/detail?idx=" + articleIdx);
+
+		} else if (func.equals("doReplyDelete")) {
+
+			// 댓글 삭제
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+
+			rdb.deleteReply(idx);
+			response.sendRedirect("/article/detail?idx=" + articleIdx);
 		}
 	}
 

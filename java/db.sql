@@ -145,3 +145,7 @@ WHERE idx=1;
 UPDATE articleReply
 SET `body`='수정!'
 WHERE idx='10';
+
+# 댓글 삭제
+DELETE FROM articleReply
+WHERE idx='11';
