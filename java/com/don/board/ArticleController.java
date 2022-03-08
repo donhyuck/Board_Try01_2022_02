@@ -92,6 +92,16 @@ public class ArticleController extends HttpServlet {
 			rdb.insertReply(articleIdx, body, nickname);
 
 			response.sendRedirect("/article/detail?idx=" + articleIdx);
+
+		} else if (func.equals("doReplyUpdate")) {
+
+			// 댓글 수정
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			String body = request.getParameter("body");
+			int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+
+			rdb.updateReply(idx, body);
+			response.sendRedirect("/article/detail?idx=" + articleIdx);
 		}
 	}
 
@@ -139,6 +149,15 @@ public class ArticleController extends HttpServlet {
 			request.setAttribute("article", article);
 
 			forward(request, response, "/Article/updateForm.jsp");
+
+		} else if (func.equals("showReplyForm")) {
+
+			// 댓글 수정
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			Reply reply = rdb.getReplyByIdx(idx);
+			request.setAttribute("reply", reply);
+
+			forward(request, response, "/Article/replyForm.jsp");
 		}
 	}
 

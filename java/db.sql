@@ -136,3 +136,12 @@ SET regDate=NOW(),
 articleIdx=1,
 `body`="test",
 nickname="관리자";
+
+# 특정 댓글 조회
+SELECT * FROM articleReply
+WHERE idx=1;
+
+# 댓글 수정
+UPDATE articleReply
+SET `body`='수정!'
+WHERE idx='10';

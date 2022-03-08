@@ -39,26 +39,41 @@
 	
 	<hr />
 	<h4> 댓글 </h4>
-	<!-- 댓글 목록 -->
-	<c:forEach items="${ replies }" var="reply">
-		<div>
-			${ reply.nickname } <br />
-			${ reply.body } <br />
-			${ reply.regDate } <br />
-		</div>
-		<hr />
-	</c:forEach>
 	
 	<!-- 댓글 작성구역 -->
 	<div>
 		<form action="/article/addReply" method="POST">
-			${ loginedUserName }	<br />
+			작성자 : ${ loginedUserName }	<br />
 			<input type="text" name="body" placeholder="여기에 댓글을 입력하세요." />
 			<input type="hidden" name="articleIdx" value="${ article.idx }" />
 			<input type="hidden" name="nickname" value="${ loginedUserName }" />
 			<input type="submit" value="댓글 남기기"/>
+			<hr />
 		</form>
 	</div>
+	
+	<!-- 댓글 목록 -->
+	<c:forEach items="${ replies }" var="reply">
+		<div>
+			${ reply.nickname }		<br />
+			${ reply.body }			<br />
+			${ reply.regDate }		<br />
+			
+			<!-- 댓글 수정 및 삭제 -->
+			<div>
+				<form action="/article/showReplyForm">
+					<input type="hidden" name="idx" value="${ reply.idx }" />
+					<input type="submit" value="수정" />
+				</form>
+				<form action="">
+					<input type="submit" value="삭제" />
+				</form>
+			</div>
+		</div>
+		<hr />
+	</c:forEach>
+	
+	
 
 </body>
 </html>

@@ -94,4 +94,25 @@ public class ReplyDB {
 		return getReplyList(sql);
 	}
 
+	public Reply getReplyByIdx(int idx) {
+
+		Reply foundReply = null;
+
+		String sql = String.format("SELECT * FROM articleReply WHERE idx = %d", idx);
+
+		ArrayList<Reply> replies = getReplyList(sql);
+
+		if (replies.size() > 0) {
+			foundReply = replies.get(0);
+		}
+
+		return foundReply;
+	}
+
+	public void updateReply(int idx, String body) {
+
+		String sql = String.format("UPDATE articleReply SET `body`='%s' WHERE idx='%d'", body, idx);
+
+		updateQuery(sql);
+	}
 }
