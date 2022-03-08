@@ -149,3 +149,41 @@ WHERE idx='10';
 # 댓글 삭제
 DELETE FROM articleReply
 WHERE idx='11';
+
+# 댓글 테이블 삭제
+DELETE FROM articleReply;
+DROP TABLE articleReply;
+
+# 댓글 테이블 생성
+CREATE TABLE articleReply (
+    idx INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    articleIdx INT UNSIGNED,
+    memberIdx INT UNSIGNED,
+    `body` VARCHAR(200) NOT NULL,
+    nickname VARCHAR(30) NOT NULL
+);
+
+SELECT * FROM articleReply;
+
+# 댓글 작성
+INSERT INTO articleReply
+SET regDate=NOW(),
+articleIdx=1,
+memberIdx=2,
+`body`='test!!!',
+nickname='홍길동';
+
+# 특정 게시글에 등록된 댓글 조회
+SELECT ar.*, m.nickname
+FROM articleReply ar
+INNER JOIN `member` m
+ON ar.memberIdx = m.idx
+WHERE ar.articleIdx=1;
+
+# 작성자 본인의 등록된 댓글 조회
+SELECT ar.*, m.nickname
+FROM articleReply ar
+INNER JOIN `member` m
+ON ar.memberIdx = m.idx
+WHERE ar.idx=1;

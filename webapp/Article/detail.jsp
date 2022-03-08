@@ -47,6 +47,7 @@
 			<input type="text" name="body" placeholder="여기에 댓글을 입력하세요." />
 			<input type="hidden" name="articleIdx" value="${ article.idx }" />
 			<input type="hidden" name="nickname" value="${ loginedUserName }" />
+			<input type="hidden" name="memberIdx" value="${ loginedUserIdx }" />
 			<input type="submit" value="댓글 남기기"/>
 			<hr />
 		</form>
@@ -60,17 +61,19 @@
 			${ reply.regDate }		<br />
 			
 			<!-- 댓글 수정 및 삭제 -->
-			<div>
-				<form action="/article/showReplyForm" method="GET">
-					<input type="hidden" name="idx" value="${ reply.idx }" />
-					<input type="submit" value="수정" />
-				</form>
-				<form action="/article/doReplyDelete" method="POST">
-					<input type="hidden" name="idx" value="${ reply.idx }" />
-					<input type="hidden" name="articleIdx" value="${ reply.articleIdx }" />
-					<input type="submit" value="삭제" />
-				</form>
-			</div>
+			<c:if test="${ reply.memberIdx == loginedUserIdx }">
+				<div>
+					<form action="/article/showReplyForm" method="GET">
+						<input type="hidden" name="idx" value="${ reply.idx }" />
+						<input type="submit" value="수정" />
+					</form>
+					<form action="/article/doDeleteReply" method="POST">
+						<input type="hidden" name="idx" value="${ reply.idx }" />
+						<input type="hidden" name="articleIdx" value="${ reply.articleIdx }" />
+						<input type="submit" value="삭제" />
+					</form>
+				</div>
+			</c:if>
 		</div>
 		<hr />
 	</c:forEach>

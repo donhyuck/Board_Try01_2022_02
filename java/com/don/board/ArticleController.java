@@ -88,12 +88,13 @@ public class ArticleController extends HttpServlet {
 			int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
 			String body = request.getParameter("body");
 			String nickname = request.getParameter("nickname");
+			int memberIdx = Integer.parseInt(request.getParameter("memberIdx"));
 
-			rdb.insertReply(articleIdx, body, nickname);
+			rdb.insertReply(articleIdx, memberIdx, body, nickname);
 
 			response.sendRedirect("/article/detail?idx=" + articleIdx);
 
-		} else if (func.equals("doReplyUpdate")) {
+		} else if (func.equals("doUpdateReply")) {
 
 			// 댓글 수정
 			int idx = Integer.parseInt(request.getParameter("idx"));
@@ -103,7 +104,7 @@ public class ArticleController extends HttpServlet {
 			rdb.updateReply(idx, body);
 			response.sendRedirect("/article/detail?idx=" + articleIdx);
 
-		} else if (func.equals("doReplyDelete")) {
+		} else if (func.equals("doDeleteReply")) {
 
 			// 댓글 삭제
 			int idx = Integer.parseInt(request.getParameter("idx"));

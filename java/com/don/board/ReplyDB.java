@@ -49,11 +49,11 @@ public class ReplyDB {
 
 	}
 
-	public void insertReply(int articleIdx, String body, String nickname) {
+	public void insertReply(int articleIdx, int memberIdx, String body, String nickname) {
 
 		String sql = String.format(
-				"INSERT INTO articleReply SET regDate=NOW(), articleIdx = '%d', `body` = '%s', nickname = '%s'",
-				articleIdx, body, nickname);
+				"INSERT INTO articleReply SET regDate=NOW(), articleIdx = '%d', memberIdx='%d', `body` = '%s', nickname = '%s'",
+				articleIdx, memberIdx, body, nickname);
 
 		updateQuery(sql);
 	}
@@ -73,10 +73,11 @@ public class ReplyDB {
 				int idx = rs.getInt("idx");
 				String regDate = rs.getString("regDate");
 				int articleIdx = rs.getInt("articleIdx");
+				int memberIdx = rs.getInt("memberIdx");
 				String body = rs.getString("body");
 				String nickname = rs.getString("nickname");
 
-				Reply reply = new Reply(idx, regDate, articleIdx, body, nickname);
+				Reply reply = new Reply(idx, regDate, articleIdx, memberIdx, body, nickname);
 				replyList.add(reply);
 			}
 

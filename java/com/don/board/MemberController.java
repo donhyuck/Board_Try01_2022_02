@@ -83,6 +83,7 @@ public class MemberController extends HttpServlet {
 				// 로그인 정보가 유지하기 위해 session을 이용한다.
 				HttpSession session = request.getSession();
 				session.setAttribute("loginedUserName", member.getNickname());
+				session.setAttribute("loginedUserIdx", member.getIdx());
 
 				// 리다이렉트 전에 쿠키를 넣어서 보낸다.
 				// 쿠키 추가

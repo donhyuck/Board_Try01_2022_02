@@ -5,14 +5,16 @@ public class Reply {
 	private int idx;
 	private String regDate;
 	private int articleIdx;
+	private int memberIdx;
 	private String body;
 	private String nickname;
 
-	public Reply(int idx, String regDate, int articleIdx, String body, String nickname) {
+	public Reply(int idx, String regDate, int articleIdx, int memberIdx, String body, String nickname) {
 		super();
 		this.idx = idx;
 		this.regDate = regDate;
 		this.articleIdx = articleIdx;
+		this.memberIdx = memberIdx;
 		this.body = body;
 		this.nickname = nickname;
 	}
@@ -55,5 +57,13 @@ public class Reply {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public int getMemberIdx() {
+		return memberIdx;
+	}
+
+	public void setMemberIdx(int memberIdx) {
+		this.memberIdx = memberIdx;
 	}
 }

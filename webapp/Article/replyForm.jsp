@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h3> 댓글 수정 </h3>
-	<form action="/article/doReplyUpdate" method="POST">
+	<form action="/article/doUpdateReply" method="POST">
 		<input type="hidden" name="idx" value="${ reply.idx }" />
 		<input type="hidden" name="articleIdx" value="${ reply.articleIdx }" />
 		<input type="hidden" name="nickname" value="${ loginedUserName }" />
