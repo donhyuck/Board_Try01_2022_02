@@ -58,60 +58,29 @@ public class ArticleController extends HttpServlet {
 		String func = (String) request.getAttribute("func");
 
 		if (func.equals("add")) {
-			// 게시글 추가
+
 			doAdd(request, response);
 
 		} else if (func.equals("update")) {
 
-			// 수정기능을 수행하는 부분
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-
-			db.updateArticle(idx, title, body);
-			// 다시 자신의 화면으로 돌아간다.
-			response.sendRedirect("/article/detail?idx=" + idx);
+			Update(request, response);
 
 		} else if (func.equals("delete")) {
 
-			// 게시글 삭제
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			db.deleteArticle(idx);
-
-			response.sendRedirect("/article/list");
+			Delete(request, response);
 
 		} else if (func.equals("addReply")) {
 
-			// 댓글 작성
-			// 사용자에게 넘겨받는 데이터는 댓글내용이지만
-			// 댓글을 구성하는 데이터는 해당 게시글 번호, 작성자 등이 필요하다.
-			int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
-			String body = request.getParameter("body");
-			String nickname = request.getParameter("nickname");
-			int memberIdx = Integer.parseInt(request.getParameter("memberIdx"));
-
-			rdb.insertReply(articleIdx, memberIdx, body, nickname);
-
-			response.sendRedirect("/article/detail?idx=" + articleIdx);
+			doAddReply(request, response);
 
 		} else if (func.equals("doUpdateReply")) {
 
-			// 댓글 수정
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			String body = request.getParameter("body");
-			int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
-
-			rdb.updateReply(idx, body);
-			response.sendRedirect("/article/detail?idx=" + articleIdx);
+			doUpdateReply(request, response);
 
 		} else if (func.equals("doDeleteReply")) {
 
-			// 댓글 삭제
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+			doDeleteReply(request, response);
 
-			rdb.deleteReply(idx);
-			response.sendRedirect("/article/detail?idx=" + articleIdx);
 		}
 	}
 
@@ -121,57 +90,29 @@ public class ArticleController extends HttpServlet {
 
 		String func = (String) request.getAttribute("func");
 
-		if (func.equals("add")) {
-			doAdd(request, response);
-
-		} else if (func.equals("list")) {
-			list(request, response);
+		if (func.equals("list")) {
+			showList(request, response);
 
 		} else if (func.equals("showAddForm")) {
 
-			HttpSession session = request.getSession();
-			String loginedUserName = (String) session.getAttribute("loginedUserName");
-
-			// 게시글 등록 페이지
-			RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
-			rd.forward(request, response);
+			showAddForm(request, response);
 
 		} else if (func.equals("detail")) {
 
-			// 게시글 상세보기
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			Article article = db.getArticleByIdx(idx);
-
-			// 댓글 목록 보기
-			ArrayList<Reply> replies = rdb.getRepliesByArticleIdx(idx);
-
-			request.setAttribute("article", article);
-			request.setAttribute("replies", replies);
-
-			forward(request, response, "/Article/detail.jsp");
+			showDetail(request, response);
 
 		} else if (func.equals("showUpdateForm")) {
 
-			// 게시글 수정
-			// 서블릿을 통하도록 연결하는 부분이 있다.
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			Article article = db.getArticleByIdx(idx);
-			request.setAttribute("article", article);
-
-			forward(request, response, "/Article/updateForm.jsp");
+			showUpdateForm(request, response);
 
 		} else if (func.equals("showReplyForm")) {
 
-			// 댓글 수정
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			Reply reply = rdb.getReplyByIdx(idx);
-			request.setAttribute("reply", reply);
+			showReplyForm(request, response);
 
-			forward(request, response, "/Article/replyForm.jsp");
 		}
 	}
 
-	// 게시글 추가
+	// 게시글 추가하기
 	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String title = request.getParameter("title");
@@ -182,14 +123,78 @@ public class ArticleController extends HttpServlet {
 
 		// 포워드 => 요청 정보를 재사용. url 안바뀜 / 반복적으로 요청이 될 수 있다.
 		// 리다이렉트 => 새로운 요청을 보냄. url 바꿈.
-		list(request, response);
+		showList(request, response);
 
 		// response.sendRedirect("/article/list");
 
 	}
 
-	// 게시글 목록
-	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	// 게시글 수정하기
+	private void Update(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		// 수정기능을 수행하는 부분
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		String title = request.getParameter("title");
+		String body = request.getParameter("body");
+
+		db.updateArticle(idx, title, body);
+		// 다시 자신의 화면으로 돌아간다.
+		response.sendRedirect("/article/detail?idx=" + idx);
+
+	}
+
+	// 게시글 삭제하기
+	private void Delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		db.deleteArticle(idx);
+
+		response.sendRedirect("/article/list");
+	}
+
+	// 댓글 작성하기
+	private void doAddReply(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		// 사용자에게 넘겨받는 데이터는 댓글내용이지만
+		// 댓글을 구성하는 데이터는 해당 게시글 번호, 작성자 등이 필요하다.
+		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+		String body = request.getParameter("body");
+		String nickname = request.getParameter("nickname");
+		int memberIdx = Integer.parseInt(request.getParameter("memberIdx"));
+
+		rdb.insertReply(articleIdx, memberIdx, body, nickname);
+
+		response.sendRedirect("/article/detail?idx=" + articleIdx);
+
+	}
+
+	// 댓글 수정하기
+	private void doUpdateReply(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		// 댓글 수정
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		String body = request.getParameter("body");
+		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+
+		rdb.updateReply(idx, body);
+		response.sendRedirect("/article/detail?idx=" + articleIdx);
+
+	}
+
+	// 댓글 삭제하기
+	private void doDeleteReply(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));
+
+		rdb.deleteReply(idx);
+		response.sendRedirect("/article/detail?idx=" + articleIdx);
+
+	}
+
+	// 게시글 목록보기
+	private void showList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		// 1. DB에 접근해서 데이터를 받는다.
 		ArrayList<Article> articleList = db.getArticles();
@@ -213,6 +218,57 @@ public class ArticleController extends HttpServlet {
 		}
 
 		forward(request, response, "/Article/list.jsp");
+
+	}
+
+	// 게시글 등록 페이지보기
+	private void showAddForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		String loginedUserName = (String) session.getAttribute("loginedUserName");
+
+		RequestDispatcher rd = request.getRequestDispatcher("/Article/addForm.jsp");
+		rd.forward(request, response);
+
+	}
+
+	// 게시글 상세보기
+	private void showDetail(HttpServletRequest request, HttpServletResponse response) {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		Article article = db.getArticleByIdx(idx);
+
+		// 댓글 목록 보기
+		ArrayList<Reply> replies = rdb.getRepliesByArticleIdx(idx);
+
+		request.setAttribute("article", article);
+		request.setAttribute("replies", replies);
+
+		forward(request, response, "/Article/detail.jsp");
+
+	}
+
+	// 게시글 수정 페이지 보기
+	private void showUpdateForm(HttpServletRequest request, HttpServletResponse response) {
+
+		// 서블릿을 통하도록 연결하는 부분이 있다.
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		Article article = db.getArticleByIdx(idx);
+		request.setAttribute("article", article);
+
+		forward(request, response, "/Article/updateForm.jsp");
+
+	}
+
+	// 댓글 수정 페이지 보기
+	private void showReplyForm(HttpServletRequest request, HttpServletResponse response) {
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		Reply reply = rdb.getReplyByIdx(idx);
+		request.setAttribute("reply", reply);
+
+		forward(request, response, "/Article/replyForm.jsp");
 
 	}
 
