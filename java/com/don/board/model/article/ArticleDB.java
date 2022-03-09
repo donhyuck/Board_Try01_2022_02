@@ -16,9 +16,7 @@ public class ArticleDB {
 
 		String sql = "SELECT * FROM article";
 
-		ArrayList<Article> articles = cdb.selectList(sql, new ArticleRowMapper());
-
-		return articles;
+		return cdb.selectList(sql, new ArticleRowMapper());
 	}
 
 	// 한개 가져오기

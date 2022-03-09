@@ -17,7 +17,7 @@ public class CommonDB {
 
 	String driver = "com.mysql.cj.jdbc.Driver";
 
-	private Connection getConnection() {
+	public Connection getConnection() {
 
 		Connection conn = null;
 
