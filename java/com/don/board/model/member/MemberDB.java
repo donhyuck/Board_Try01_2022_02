@@ -1,4 +1,4 @@
-package com.don.board;
+package com.don.board.model.member;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

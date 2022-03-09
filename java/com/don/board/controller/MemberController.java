@@ -1,4 +1,4 @@
-package com.don.board;
+package com.don.board.controller;
 
 import java.io.IOException;
 
@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.don.board.model.article.ArticleDB;
+import com.don.board.model.member.Member;
+import com.don.board.model.member.MemberDB;
 
 @WebServlet("*.do")
 public class MemberController extends HttpServlet {
