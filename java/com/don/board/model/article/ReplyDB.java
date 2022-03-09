@@ -9,118 +9,48 @@ import java.util.ArrayList;
 
 public class ReplyDB {
 
-	// JDBC
-	// DBMS 접속정보 세팅
+	CommonDB cdb = new CommonDB();
 
-	// DBMS 주소
-	String url = "jdbc:mysql://localhost:3306/jsptry?serverTimezone=UTC";
-	// 인증정보
-	String user = "root";
-	String pass = "";
+	// 여러개 가져오기
+	public ArrayList<Reply> getRepliesByArticleIdx(int articleIdx) {
 
-	// 드라이버 정보(자바 클래스)
-	String driver = "com.mysql.cj.jdbc.Driver"; // 다운로드 받아야 함
+		String sql = String.format("SELECT * FROM articleReply WHERE articleIdx = %d", articleIdx);
 
-	private Connection getConnection() {
-
-		Connection conn = null;
-
-		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, pass);
-		} catch (Exception e) {
-			System.out.println("Connection 가져오는 중 문제 발생");
-		}
-
-		return conn;
+		return cdb.selectList(sql, new ReplyRowMapper());
 	}
 
-	public void updateQuery(String sql) {
+	// 한개 가져오기
+	public Reply getReplyByIdx(int idx) {
 
-		Connection conn = getConnection();
-		Statement stmt = null;// 체크
+		String sql = String.format("SELECT * FROM articleReply WHERE idx = %d", idx);
 
-		try {
-			stmt = conn.createStatement(); // 체크
-			stmt.executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		return cdb.getOne(sql, new ReplyRowMapper());
 
 	}
 
+	// 댓글 등록하기
 	public void insertReply(int articleIdx, int memberIdx, String body, String nickname) {
 
 		String sql = String.format(
 				"INSERT INTO articleReply SET regDate=NOW(), articleIdx = '%d', memberIdx='%d', `body` = '%s', nickname = '%s'",
 				articleIdx, memberIdx, body, nickname);
 
-		updateQuery(sql);
+		cdb.updateQuery(sql);
 	}
 
-	public ArrayList<Reply> getReplyList(String sql) {
-
-		Connection conn = getConnection();
-
-		ArrayList<Reply> replyList = new ArrayList<>();
-
-		try {
-			Statement stmt = conn.createStatement();
-
-			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				int idx = rs.getInt("idx");
-				String regDate = rs.getString("regDate");
-				int articleIdx = rs.getInt("articleIdx");
-				int memberIdx = rs.getInt("memberIdx");
-				String body = rs.getString("body");
-				String nickname = rs.getString("nickname");
-
-				Reply reply = new Reply(idx, regDate, articleIdx, memberIdx, body, nickname);
-				replyList.add(reply);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return replyList;
-	}
-
-	public ArrayList<Reply> getRepliesByArticleIdx(int articleIdx) {
-
-		String sql = String.format("SELECT * FROM articleReply WHERE articleIdx = %d", articleIdx);
-
-		return getReplyList(sql);
-	}
-
-	public Reply getReplyByIdx(int idx) {
-
-		Reply foundReply = null;
-
-		String sql = String.format("SELECT * FROM articleReply WHERE idx = %d", idx);
-
-		ArrayList<Reply> replies = getReplyList(sql);
-
-		if (replies.size() > 0) {
-			foundReply = replies.get(0);
-		}
-
-		return foundReply;
-	}
-
+	// 댓글 수정하기
 	public void updateReply(int idx, String body) {
 
 		String sql = String.format("UPDATE articleReply SET `body`='%s' WHERE idx='%d'", body, idx);
 
-		updateQuery(sql);
+		cdb.updateQuery(sql);
 	}
 
+	// 댓글 삭제하기
 	public void deleteReply(int idx) {
 
 		String sql = String.format("DELETE FROM articleReply WHERE idx='%d'", idx);
 
-		updateQuery(sql);
+		cdb.updateQuery(sql);
 	}
 }
